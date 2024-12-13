@@ -21,14 +21,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "../ui/checkBox";
 import { Textarea } from '../ui/textarea';
 import { api } from '@/lib/api'
 import { notify } from '@/lib/utils'
 import axios from 'axios'
 import Loading from '../ui/Loading'
-import { CopyIcon, } from 'lucide-react'
-import { Hamburger } from "@/components/vectors";
 import Image from 'next/image'
 import Preview from './Preview'
 import DisplayOrder from './DisplayOrder';

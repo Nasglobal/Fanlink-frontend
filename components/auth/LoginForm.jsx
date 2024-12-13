@@ -15,22 +15,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "../ui/checkBox";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   notify,
   writeToLocalStorage,
 } from "@/lib/utils";
-//import { setUserProfile, setUserToken } from "@/redux/features/userSlice";
-//import { useLoginMutation } from "@/redux/services/authApi";
 import Loading from "@/components/ui/loading";
 import PasswordInput from "../ui/PasswordInput";
 import { login } from "@/lib/api";
-//import { useGetUserProfileQuery } from "@/redux/services/userApi";
+
 
 
 const LoginForm = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
  
@@ -124,7 +121,7 @@ const LoginForm = () => {
       </Form>
       <p className="text-xs py-1 text-center px-8 mt-5 font-normal">
         <Link href="/auth/register" className="text-white">
-          Don't have an account? <span className="text-red-600">Register</span>
+          {"Don't have an account?"} <span className="text-red-600">Register</span>
         </Link>
       </p>
     </div>

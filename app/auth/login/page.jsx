@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 function Login() {
+
   return (
     <main className='bg-black grid md:grid-cols-2 h-screen'>
     <section className="md:col-span-1 bg-[url('/assets/images/login.png')] bg-cover bg-center bg-no-repeat hidden md:block">
@@ -31,7 +32,7 @@ function Login() {
                 />
               </Link>
             </div>
-    <LoginForm/>
+     <LoginForm/> 
     </section>
     
     </main>
