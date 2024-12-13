@@ -7,7 +7,7 @@ import SearchBar from "../ui/SearchBar";
 import Image from "next/image";
 
 
-const TopNav = ({ isLoading, error,userProfile }) => {
+const TopNavBar = ({ isLoading, error,userProfile }) => {
   const { setActiveMenu, screenSize } = useAppStateContext();
   const handleActiveMenu = () => setActiveMenu((prev) => !prev);
 
@@ -56,4 +56,4 @@ const TopNav = ({ isLoading, error,userProfile }) => {
   );
 };
 
-export default TopNav;
+export default TopNavBar;

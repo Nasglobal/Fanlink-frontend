@@ -1,8 +1,7 @@
 "use client";
-import TopNavbar from "@/components/dashboard/TopNavbar";
+import TopNavbar from "@/components/dashboard/TopNavBar";
 import { useAppStateContext } from "@/context/AppStateContext";
 import {  readFromLocalStorage } from "@/lib/utils";
-
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
