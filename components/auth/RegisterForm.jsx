@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { notify,writeToLocalStorage } from "@/lib/utils";
 
-import Loading from "@/components/ui/loading";
+import Loading from "@/components/ui/Loading";
 import PasswordInput from "../ui/PasswordInput";
 import { register } from "@/lib/api";
 

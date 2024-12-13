@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "../ui/checkBox";
+import { Checkbox } from "../ui/checkbox";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   notify,
   writeToLocalStorage,
 } from "@/lib/utils";
-import Loading from "@/components/ui/loading";
+import Loading from "@/components/ui/Loading";
 import PasswordInput from "../ui/PasswordInput";
 import { login } from "@/lib/api";
 

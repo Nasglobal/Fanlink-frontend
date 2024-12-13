@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
 import { Toaster } from "sonner";
 import AppProvider from "@/providers/AppStateProvider";
 
