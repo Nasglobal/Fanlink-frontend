@@ -28,6 +28,7 @@ function Releases() {
         { key: "UPC", header: "UPC" },
         { key: "ReleaseDate", header: "Release_Date" },
         { key: "FanlinkSent", header: "Fanlinks" },
+       // { key: "NewFanlink", header: "New Fanlinks" },
       ];
 
       const getReleases = (page,page_size)=>{
@@ -96,6 +97,10 @@ function Releases() {
 
                 <DynamicTable
                     data={results}
+                    // data={results?.map((result) => ({
+                    //   ...result,
+                    //  NewFanlink: `${window.location.origin}${result?.FanlinkSent}`,
+                    // }))}
                     columns={columns}
                     
                   /> 

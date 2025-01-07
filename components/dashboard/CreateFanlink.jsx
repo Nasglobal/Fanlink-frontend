@@ -126,8 +126,8 @@ function CreateFanlink() {
 
           setLoader(true)
           const formData = new FormData();
-          formData.append('artist', selectedArtist);
-          formData.append('track', values.track_title);
+          formData.append('artist', selectedArtist.replace(/^[,.\s]+|[,.\s]+$/g, ""));
+          formData.append('track', values.track_title.replace(/^[,.\s]+|[,.\s]+$/g, ""));
           formData.append('upc', values.description);
           formData.append('description', values.upc);
           formData.append('releaseDate', values.releaseDate);
