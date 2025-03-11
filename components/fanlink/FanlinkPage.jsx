@@ -3,9 +3,9 @@ import React,{useEffect,useState} from 'react'
 import { useParams } from 'next/navigation';
 import FanlinkButton from '../ui/FanlinkButton';
 import axios from 'axios';
-import { base } from '@/lib/api'
-import Loading from '../ui/Loading';
+import { base } from '@/lib/api';
 import Navbar from '../shared/Navbar';
+import Spinner from '../ui/Spinner';
 
 function FanlinkPage() {
     const params = useParams();
@@ -16,18 +16,19 @@ function FanlinkPage() {
     const fanlk = upc.split("-");
     const trackname = fanlk[1]
     const artistname = fanlk[0]
+    
 
 
     const getFanlinks = async (track,artist) => {
          setLoader(true)
       try {
         const response = await axios.get(base + `/get-fanlink/${track}/${artist}`);
-        
-        console.log("this is fanlinks",response?.data?.data)
-        setFanlinks(response?.data?.data); 
+        setFanlinks(response?.data?.data);
+        console.log("responses : ",response) 
         setLoader(false) 
       } catch (error) { 
-        setError(`Error fetching fanlinks`) 
+        console.log("errpor responses : ",error?.response?.data?.error) 
+        setError(error?.response?.data?.error || "Error fetching fanlinks") 
         setLoader(false) 
       }
     };
@@ -49,24 +50,18 @@ function FanlinkPage() {
       <div className=" w-full lg:w-[30%] mx-auto min-h-80  flex  flex-col    gap-3">
       <div className=' text-white text-sm  mx-2  flex gap-3  items-center justify-center '>
       
-            <p className='font-semibold'>{artistname}</p>
-          
+            <p className='font-semibold'>{artistname?.replace(/[ ,;.%\s]/g, '')}</p>
             -
-        
-            <p>{ trackname}</p>
+            <p>{ trackname?.replace(/[ ,;.%\s]/g, '')}</p>
         </div>
       <div className='h-auto flex flex-col lg:mx-3 mx-5 '>
       <div className="w-full bg-white p-2 mb-6">
       {/* Spotify Embed */}
-      {/* <iframe
-        className=""
-        src={`https://open.spotify.com/embed/track/${fanlinks?.spotifyLink?.split("/").pop()}`}
-        width="100%"
-        height="250"
-        allow="encrypted-media"
-      ></iframe> */}
+
+      {loader ? <Spinner/>: <>
 
 
+  {fanlinks?.source == "youtube" ? 
 <iframe
 className='bg-black'
   width="100%"
@@ -76,16 +71,33 @@ className='bg-black'
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen
+></iframe> :
+
+<iframe
+className=""
+src={`https://open.spotify.com/embed/track/${fanlinks?.spotifyLink?.split("/").pop()}`}
+width="100%"
+height="250"
+allow="encrypted-media"
+frameborder="0"
+allowfullscreen
 ></iframe>
+
+}
+      
+      
+      </>}
+     
+
 
     </div>
 
 
-      <div className=' h-full p-3 bg-white'>
+      <div className='h-auto p-3 bg-white'>
       
-        {loader ? <p className='flex justify-center items-center text-white text-center'><Loading/> Loading...</p> : 
+        {loader ? <Spinner/>: 
         <>
-        {error ? <p className='text-center text-white'>{error}</p>:
+        {error ? <p className='text-center text-red-500'>{error}</p>:
         
         <div className='grid md:grid-cols-2 gap-3 '>
         {fanlinks?.spotifyLink && 

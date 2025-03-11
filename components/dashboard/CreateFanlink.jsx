@@ -89,8 +89,8 @@ function CreateFanlink() {
         message: "Release date is required",
       }),
 
-      upc: z.string().min(2, {
-        message: "UPC is required",
+      isrc: z.string().min(2, {
+        message: "ISRC is required",
       }),
       source: z.string().min(2, {
         message: "Preview source is required",
@@ -106,7 +106,7 @@ function CreateFanlink() {
     const form = useForm({
       resolver: zodResolver(fanlinkSchema),
       defaultValues: {
-        upc: "",
+        isrc: "",
         description: "",
         releaseDate:"",
         track_title:"",
@@ -128,8 +128,8 @@ function CreateFanlink() {
           const formData = new FormData();
           formData.append('artist', selectedArtist.replace(/^[,.\s]+|[,.\s]+$/g, ""));
           formData.append('track', values.track_title.replace(/^[,.\s]+|[,.\s]+$/g, ""));
-          formData.append('upc', values.description);
-          formData.append('description', values.upc);
+          formData.append('description', values.description);
+          formData.append('isrc', values.isrc);
           formData.append('releaseDate', values.releaseDate);
           formData.append('source', values.source);
           formData.append('label', values.label);
@@ -200,12 +200,12 @@ function CreateFanlink() {
 
       <FormField
             control={form.control}
-            name="upc"
+            name="isrc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>UPC</FormLabel>
+                <FormLabel>ISRC</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter upc" type="number" {...field} />
+                  <Input placeholder="Enter isrc" type="text" {...field} />
                 </FormControl>
                 <FormMessage className="text-red-600" />
               </FormItem>
@@ -233,7 +233,7 @@ function CreateFanlink() {
               <FormItem>
                 <FormLabel>Release date</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter release date" type="text" {...field} />
+                  <Input placeholder="DD/MM/YYYY" type="date" {...field} />
                 </FormControl>
                 <FormMessage className="text-red-600" />
               </FormItem>

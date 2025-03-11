@@ -80,7 +80,7 @@ function FanlinkListing() {
            <div key={index} className='grid grid-cols-4 text-white bg-[#191918] p-3 rounded-md'>
            <div className=' col-span-2 flex gap-4'>
            <Image
-           src={"/assets/images/fanlink-image1.png"}
+           src={item?.YoutubeLink?.split("v=")[1].split("&")[0] ? `https://img.youtube.com/vi/${item?.YoutubeLink?.split("v=")[1].split("&")[0]}/maxresdefault.jpg` : "/assets/images/fanlink-image1.png"}
            alt='fanlink-image'
            width={80}
            height={60}

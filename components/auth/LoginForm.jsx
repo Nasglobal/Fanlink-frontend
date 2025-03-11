@@ -1,5 +1,5 @@
 "use client";
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import {
   notify,
   writeToLocalStorage,
+  readFromLocalStorage,
 } from "@/lib/utils";
 import Loading from "@/components/ui/Loading";
 import PasswordInput from "../ui/PasswordInput";
@@ -28,8 +29,9 @@ import { login } from "@/lib/api";
 
 const LoginForm = () => {
   const router = useRouter();
-  const [token, setToken] = useState(null);
+  //const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const token = readFromLocalStorage('token')
  
 
   const LoginSchema = z.object({
@@ -54,7 +56,7 @@ const LoginForm = () => {
     setIsLoading(true)
     try {
       const response = await login(values);
-      setToken(response.data.access);
+      //setToken(response.data.access);
       writeToLocalStorage('token', response.data.access);
       notify("Login successful","success")
       setIsLoading(false)
@@ -67,6 +69,15 @@ const LoginForm = () => {
 
     
   }
+
+
+    useEffect(() => {
+      if (token) {
+        router.push(`/dashboard/fanlinks`);
+      }
+    }, [token]);
+
+
 
   return (
     <div className="mt-16 md:mt-10 w-full p-5  max-w-[460px] md:mx-auto rounded-md bg-[#222222] text-white md:p-10">

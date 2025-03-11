@@ -20,6 +20,7 @@ const Sidebar = ({ isLoading }) => {
 
   const handleLogout = () => {
     removeFromLocalStorage('token'); // Remove the token
+    removeFromLocalStorage('refresh_token')
     window.location.href = '/auth/login'; // Redirect to the login page
 };
  

@@ -14,6 +14,8 @@ const Navbar = () => {
     setActive((prev) => !prev);
   };
 
+  
+
   return (
     <>
       <section className="z-50" >
