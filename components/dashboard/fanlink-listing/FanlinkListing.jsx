@@ -76,7 +76,11 @@ function FanlinkListing() {
                 :
              <>
 
-        {results?.map((item,index)=>(
+        {
+        results.length < 1 ? 
+        <p className='text-red-500 text-base text-center mt-10'>No fanlink generated yet</p> 
+        : 
+        results?.map((item,index)=>(
            <div key={index} className='grid grid-cols-4 text-white bg-[#191918] p-3 rounded-md'>
            <div className=' col-span-2 flex gap-4'>
            <Image
