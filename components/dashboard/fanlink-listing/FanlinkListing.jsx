@@ -77,7 +77,7 @@ function FanlinkListing() {
              <>
 
         {
-        results.length < 1 ? 
+        results?.length < 1 ? 
         <p className='text-red-500 text-base text-center mt-10'>No fanlink generated yet</p> 
         : 
         results?.map((item,index)=>(
