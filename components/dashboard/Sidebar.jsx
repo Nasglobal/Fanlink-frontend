@@ -134,4 +134,20 @@ const menuItems = [
 
     ],
   },
+
+  {
+    menu: [
+      {
+        title: "Video Edit",
+        slug: "video-edit",
+        icon: {
+          white: <HomeIcon color="#FFF" />,
+          dark: <HomeIcon />,
+        },
+        path: "/dashboard/video-edit",
+        hasSubMenu: false,
+      },
+
+    ],
+  },
 ];
