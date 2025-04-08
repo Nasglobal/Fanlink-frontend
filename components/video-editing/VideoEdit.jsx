@@ -21,6 +21,9 @@ export default function VideoEdit() {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingTrim, setLoadingTrim] = useState(false);
   const [reset, setReset] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [downloadId, setDownloadId] = useState(null);
 
   
 
@@ -38,21 +41,35 @@ export default function VideoEdit() {
 
 
 
-  const handleTrim = async (startTime,endTime) => {
+  const handleTrim = async (startTime,endTime,waterFile) => {
     setLoadingTrim(true)
+    setDownloadId(videoId)
     if (!startTime || !endTime || !videoId){
-        notify("Video not ready for trimming", "fail");
+        notify("Video not ready for trimming, drag the pointers to set duration", "fail");
         setLoadingTrim(false)
         return
     }
 
+    if(!isChecked && !waterFile){
+      notify("please upload watermark image or select default", "fail");
+      setLoadingTrim(false)
+      return
+    }
+
+    const formData = new FormData();
+    formData.append("video_id", videoId);
+    formData.append("start_time", startTime.toFixed(2));
+    formData.append("end_time", endTime.toFixed(2));
+
+    if (waterFile && !isChecked) {
+      formData.append("watermark_image", waterFile);
+    }
+
 
     try {
-      const response = await axios.post(base + "/trim-video/", {
-        video_id: videoId,
-        start_time: startTime.toFixed(2),
-        end_time: endTime.toFixed(2),
-      });
+      const response = await axios.post(base + "/trim-video/", formData,{
+        headers: { "Content-Type": "multipart/form-data" }, 
+    });
   
       notify("Video trimmed successfully!", "success");
 
@@ -103,22 +120,22 @@ export default function VideoEdit() {
 
   const handleSplit = async (videoId,duration) => {
     setLoading(true);
+    setDownloadId(videoId)
     
-    const response = await fetch(`${base}/split-video/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            video_id: videoId,
-            split_duration: duration,
-        }),
+    const formData = new FormData();
+    formData.append("video_id", videoId);
+    formData.append("duration", duration);
+    
+
+    const response = await axios.post(`${base}/split-video/`, formData,{
+        headers: { "Content-Type": "multipart/form-data" }, 
     });
 
-    if (response.ok) {
-        const data = await response.json();
-        //setDownloadLink(data?.download_url);
+    console.log("response data:",response)
+
+    if (response.status == 200) {
         console.log("Response:", response);
+        setReset(response?.data?.download_url)
         setLoading(false);
         notify("Video splitted successfully","success")
     } else {
@@ -152,6 +169,7 @@ const handleDownload = async (folderName) => {
 
 
 const handleDeleteVideo = async (videoId) => {
+    setDeleteId(videoId)
     setLoadingDelete(true)
     try {
         const response = await fetch(`${base}/delete-video/${videoId}/`, {
@@ -222,7 +240,7 @@ const handleDeleteVideo = async (videoId) => {
         ))}
       </header>
       {activeTab == "split" ?  <VideoSplitter videoId={videoId} setReset={setReset} /> : null}
-      {activeTab == "trim" ?  <TrimVideo videoSrc={videoUrl} onTrim={handleTrim} loadingTrim={loadingTrim} />  : null}
+      {activeTab == "trim" ?  <TrimVideo videoSrc={videoUrl} onTrim={handleTrim} loadingTrim={loadingTrim} isChecked={isChecked} setIsChecked={setIsChecked} />  : null}
       </section>
       }
       </div>
@@ -249,7 +267,7 @@ const handleDeleteVideo = async (videoId) => {
               
               <div className="flex gap-4">
 
-                {loading ? <Loading color="black"/>:
+                {loading &&  downloadId == video.id  ? <Loading color="black"/>:
                 <>
 
              {video?.splitted == "Yes" ?
@@ -260,7 +278,7 @@ const handleDeleteVideo = async (videoId) => {
                 </>}
               
                <div className="mt-1">
-               {loadingDelete ? <Loading color="black"/> :
+               {loadingDelete && deleteId == video.id ? <Loading color="black"/> :
                <p onClick={() => handleDeleteVideo(video.id)}>
                 <Trash2Icon size={20} color="red" />
                </p>

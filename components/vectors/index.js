@@ -7,6 +7,7 @@ import PlaylistIcon from "./PlaylistIcon";
 import StereoIcon from "./StereoIcon";
 import LogoutIcon from "./LogoutIcon";
 import ReleasesIcon from "./ReleasesIcon";
+import UploadIcon from "./UploadIcon";
 
 export {
     ListIcon,
@@ -18,5 +19,6 @@ export {
     StereoIcon,
     LogoutIcon,
     ReleasesIcon,
+    UploadIcon,
 }
 

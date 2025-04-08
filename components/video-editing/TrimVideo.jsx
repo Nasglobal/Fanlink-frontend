@@ -2,14 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
 import { notify } from "@/lib/utils";
 import Loading from "../ui/Loading";
+import { UploadIcon } from "../vectors";
+import { Checkbox } from "../ui/checkbox";
 //import { formatTime } from "./utils"; // A utility function to format time in mm:ss
 
-const TrimVideo = ({ videoSrc, onTrim, loadingTrim}) => {
+const TrimVideo = ({ videoSrc, onTrim, loadingTrim,isChecked, setIsChecked}) => {
   const videoRef = useRef(null);
   const [duration, setDuration] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const [dragging, setDragging] = useState(null);
+  const [waterFile, setWaterFile] = useState(null);
+  
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setWaterFile(file);
+    }
+  };
 
   useEffect(() => {
     if (videoRef.current) {
@@ -40,8 +51,13 @@ const TrimVideo = ({ videoSrc, onTrim, loadingTrim}) => {
 
   const handlePointerUp = () => setDragging(null);
 
+
+  const handleCheckboxClick = () => {
+    setIsChecked(prev=>!prev);
+  };
+
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col  w-full">
        <video ref={videoRef} src={videoSrc} controls className="w-full max-w-xl mt-3" /> 
       <p className="text-sm text-center my-2">Drag both pointer to set video trim time</p>
       <div
@@ -76,13 +92,54 @@ const TrimVideo = ({ videoSrc, onTrim, loadingTrim}) => {
         <span>StartTime: {formatTime(startTime)}</span>
         <span>EndTime: {formatTime(endTime)}</span>
       </div>
+
+      <p className="text-xs text-start font-semibold mt-7 mb-2">Upload watermark image or use default</p>
+
+      <section className="grid grid-cols-2 gap-4">
+       {!isChecked &&  
+      <div className="w-full max-w-md mx-auto p-1 bg-white rounded-2xl shadow">
+      <label
+        htmlFor="watermarkFile"
+        className="flex items-center justify-center border-2 border-dashed gap-4 border-gray-300 rounded-xl p-1 cursor-pointer hover:border-blue-500 transition"
+      >
+        <UploadIcon/>
+
+        <p className={`text-[10px] ${waterFile  ? "text-blue-800":"text-gray-500"} `}>
+          {waterFile ? waterFile?.name : "Click to upload watermark image"}
+        </p>
+        <input
+          type="file"
+          id="watermarkFile"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+      </label>
+    </div>
+}
+
+     <div className='flex justify-end mt-3  text-[10px]'>
+      <p className='flex gap-2'>Use default watermark 
+      <Checkbox
+      className="border-blue-700 w-4 h-4"
+                   checked={isChecked}
+                   onClick={handleCheckboxClick}
+                    />
+        </p>
+       </div>
+
+
+
+    </section>
+
+
       
       <Button
        disabled={loadingTrim}
-        onClick={() => onTrim(startTime, endTime)}
+        onClick={() => onTrim(startTime, endTime,waterFile)}
         className="mt-4 bg-green-500 text-white w-full"
       >
-        {loadingTrim ? <Loading/>: "Trim Video"}
+        {loadingTrim ? <><Loading/>pls wait...</>: "Trim Video"}
         
       </Button>
     </div>
