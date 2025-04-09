@@ -73,9 +73,17 @@ export default function VideoEdit() {
   
       notify("Video trimmed successfully!", "success");
 
-    const videoResponse = await axios.get(response.data.trimmed_video_url, {
-      responseType: "blob",
-    });
+      const trimmedUrl = response.data.trimmed_video_url;
+      const videoname = trimmedUrl.split("/").pop(); // get the filename from URL
+      
+      // Request from custom download endpoint
+      const videoResponse = await axios.get(`${base}/media/trimmed-videos/${videoname}`, {
+        responseType: "blob",
+      });
+
+    // const videoResponse = await axios.get(response.data.trimmed_video_url, {
+    //   responseType: "blob",
+    // });
 
     // Create a Blob URL for downloading
     const blob = new Blob([videoResponse.data], { type: "video/mp4" });
@@ -84,7 +92,7 @@ export default function VideoEdit() {
     // Create a download link
     const link = document.createElement("a");
     link.href = blobUrl;
-    link.download = "trimmed_video.mp4"; // Sets file name
+    link.download = `trimmed_${videoname}`; // Sets file name
     document.body.appendChild(link);
     link.click();
 
