@@ -77,7 +77,7 @@ export default function VideoEdit() {
       const videoname = trimmedUrl.split("/").pop(); // get the filename from URL
       
       // Request from custom download endpoint
-      const videoResponse = await axios.get(`${base}/media/trimmed-videos/${videoname}`, {
+      const videoResponse = await axios.get(`${base}/trimmed-video/${videoname}`, {
         responseType: "blob",
       });
 
