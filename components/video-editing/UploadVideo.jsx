@@ -13,6 +13,7 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
   const [fileName, setFileName] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [selecting, setSelecting] = useState(false);
   const fileTypes = ["mp4"];
 
   const handleUpload = async () => {
@@ -62,18 +63,22 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
 };
 
   async function handleVideoChange(file) {
+    setSelecting(true)
     const reader = new FileReader();
     reader.onabort = () => {
       notify("There was an error. Please retry.", "error");
+      setSelecting(false)
       return;
     };
     reader.onerror = () => {
       notify("There was an error. Please retry.", "error");
+      setSelecting(false)
       return;
     };
     reader.onload = () => {
         setFile(file);
         setFileName(file.name)
+        setSelecting(false)
     };
     reader.readAsDataURL(file);
     
@@ -91,6 +96,7 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
               handleChange={handleVideoChange}
               types={fileTypes}
             >
+            {selecting ? <>Loading video. please wait...<Loading color="black"/></> : 
                 <div className="w-full border-2 border-dashed rounded-md p-4 items-center mb-5 flex flex-col gap-4">
                     <p className="text-sm text-gray-600">Drag and drop video</p>
                     <p>or</p>
@@ -99,7 +105,7 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
               >
                 Click to select a video
               </Button>
-              </div>
+              </div>}
         </FileUploader>
 }
       {/* <input
@@ -111,6 +117,8 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
       {file && fileName &&
       <p className="text-center text-gray-600 font-semibold text-sm p-3 mb-3 border-2 rounded-md">{fileName}</p>
       }
+      <>
+      {!selecting && 
       <Button
         disabled={loading}
         onClick={handleUpload}
@@ -118,6 +126,9 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
       >
         {loading ? <Loading/> : "Upload Video"}
       </Button>
+      }
+      </>
+      
 
       {loading && (
         <div className="mt-4">
