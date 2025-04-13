@@ -64,6 +64,14 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
 
   async function handleVideoChange(file) {
     setSelecting(true)
+
+    // Check file size (1GB = 1073741824 bytes)
+  if (file.size > 1073741824) {
+    notify("Video size exceeds 1GB limit. please upload Video less than 1GB", "fail");
+    setSelecting(false);
+    return;
+  }
+
     const reader = new FileReader();
     reader.onabort = () => {
       notify("There was an error. Please retry.", "error");
