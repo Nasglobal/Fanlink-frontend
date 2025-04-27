@@ -4,10 +4,27 @@ import { Toaster } from "sonner";
 import AppProvider from "@/providers/AppStateProvider";
 
 const inter = Inter({ subsets: ["latin"] });
+const siteUrl = "https://fanlink.51lexapps.com"
 
 export const metadata = {
-  title: "51 lex app",
-  description: "Fan link application",
+  metadataBase: new URL(`${siteUrl}`),
+  title: "51Lex Fanlink: Fanlink for music tracks",
+  description:
+    "All music track links embedded into a single link",
+  canonical: "/",
+  icons: {
+    icon: "/icon.png",
+  },
+  openGraph: {
+    title:
+      "51Lex Fanlink: Fanlink for music tracks",
+    description:
+      "All music track links embedded into a single link",
+    url: `${siteUrl}`,
+    siteName: "51Lex fanlink",
+    images: "/opengraph-image.png",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
