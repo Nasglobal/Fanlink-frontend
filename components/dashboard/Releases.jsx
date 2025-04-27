@@ -4,13 +4,14 @@ import Link from 'next/link'
 import SearchBar from '@/components/ui/SearchBar'
 import { StereoIcon } from '@/components/vectors'
 import axios from 'axios'
-import { api } from '@/lib/api'
+import { api,base } from '@/lib/api'
 import {DownloadIcon,CopyIcon,Link2Icon } from 'lucide-react'
 import Image from 'next/image'
-import { FilterIcon, ChevronDown,UploadIcon} from 'lucide-react'
+import { FilterIcon, ChevronDown,UploadIcon, Share2Icon} from 'lucide-react'
 import DynamicTable from './DynamicTable'
 import UpdateReleasesModal from './modals/UpdateReleasesModal'
 import Loading from '../ui/Loading'
+import { notify } from "@/lib/utils";
 
 
 function Releases() {
@@ -20,15 +21,16 @@ function Releases() {
     const [loading,setLoading] = useState(false)
     const [results,setResults] = useState(null)
     const [error,setError] = useState(null)
+    const [exporting,setExporting] = useState(false)
 
     const columns = [
         { key: "Label", header: "Label" },
         { key: "Artists" , header: "Artist" },
         { key: "Title", header: "Title" },
-        { key: "UPC", header: "UPC" },
+        // { key: "UPC", header: "UPC" },
         { key: "ReleaseDate", header: "Release_Date" },
         { key: "FanlinkSent", header: "Fanlinks" },
-       // { key: "NewFanlink", header: "New Fanlinks" },
+        { key: "MissingLinks", header: "MissingLinks" },
       ];
 
       const getReleases = (page,page_size)=>{
@@ -53,6 +55,43 @@ function Releases() {
     useEffect(()=>{
       getReleases(currentPage,page_size)
     },[])
+
+
+
+
+    const handleExport = () => {
+        setExporting(true)
+        
+        const url = `${base}/export-releases-fanlink/`;  
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/xlsx',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }else{
+                setExporting(false)
+                notify("Sorry error occured","error")
+                throw new Error('Network response was not ok.')
+            }
+            
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Releases_fanlink.xlsx`); // Specify the filename
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            setExporting(false)
+            notify("Releases fanlink exported successfully","success")
+        })
+        .catch(error => console.error('Export failed:', error));
+    };
     
      
 
@@ -79,9 +118,9 @@ function Releases() {
          <FilterIcon/> Filter <ChevronDown/>
         </div>
 
-       <Link href={"/"} className='flex font-normal items-center gap-2 bg-red-600 text-white p-2 text-sm rounded-md'>
-       <DownloadIcon/> Export csv
-       </Link>
+       <button disabled={exporting} onClick={handleExport} className='flex font-normal items-center gap-2 bg-red-600 text-white p-2 text-sm rounded-md'>
+        {exporting ? <>Exporting...<Loading color='white' /></> : <>Export Releases <DownloadIcon/></> }
+       </button>
        </div>
        </div>
       

@@ -6,9 +6,9 @@ import { StereoIcon } from '@/components/vectors'
 import { Edit3Icon, Trash2,DownloadIcon,CopyIcon,Link2Icon } from 'lucide-react'
 import Image from 'next/image'
 import axios from 'axios'
-import { api } from '@/lib/api'
+import { api,base } from '@/lib/api'
 import Loading from '@/components/ui/Loading'
-import { copyToClipboard } from '@/lib/utils'
+import { copyToClipboard,notify } from '@/lib/utils'
 
 
 
@@ -19,6 +19,7 @@ function FanlinkListing() {
     const [loading,setLoading] = useState(false)
     const [results,setResults] = useState(null)
     const [error,setError] = useState(null)
+    const [generatingLinks,setGeneratingLinks] = useState(false)
 
     
       const getFanlinks = (page,page_size)=>{
@@ -42,14 +43,31 @@ function FanlinkListing() {
     useEffect(()=>{
       getFanlinks(currentPage,page_size)
     },[])
+
+
+    const generateLinksBatch = async () => {
+      setGeneratingLinks(true)
+      try {
+        const response = await axios.get(`${base}/generate-fanlinks-in-batch/`);
+        (response.data.message);
+        notify(response.data.message,"success")
+        console.log("Message:",response.data.message)
+        setGeneratingLinks(false)
+      } catch (error) {
+        console.error("Error generating links:", error);
+        setGeneratingLinks(false)
+      }
+    };
+
     
      
 
 
   return (
     <main className='flex flex-col text-white mt-5 mx-5 gap-5'>
-       <header className='flex justify-between items-center'>
+       <header className='flex gap-3 flex-col md:flex-row justify-between items-center'>
        <p className='text-lg font-bold '>Active Links</p>
+       <button disabled={generatingLinks} onClick={generateLinksBatch} className='bg-red-500 p-2 rounded-md text-center text-sm cursor-pointer'>{generatingLinks ? <p className='flex gap-2'><Loading/> Generating links...</p>:"Auto Generate Links From Releases"}</button>
        <div className='flex gap-3'>
        {/* <Link href={"/dashboard/create-link"} className='flex font-normal items-center gap-2 bg-red-600 text-white p-2 text-sm rounded-md'>
        <DownloadIcon/> Export csv
