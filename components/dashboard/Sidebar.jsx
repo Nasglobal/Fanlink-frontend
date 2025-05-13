@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { HomeIcon, PlaylistIcon, DashboardIcon, LogoutIcon,ReleasesIcon } from "@/components/vectors";
-import { X } from "lucide-react";
+import { X,CalculatorIcon } from "lucide-react";
 import { useAppStateContext } from "@/context/AppStateContext";
 import ParentMenuItem from "./menu/ParentMenuItem";
 import { removeFromLocalStorage } from "@/lib/utils";
@@ -145,6 +145,22 @@ const menuItems = [
           dark: <HomeIcon />,
         },
         path: "/dashboard/video-edit",
+        hasSubMenu: false,
+      },
+
+    ],
+  },
+
+  {
+    menu: [
+      {
+        title: "Accounting",
+        slug: "accounting",
+        icon: {
+          white: <CalculatorIcon color="#FFF" />,
+          dark: <CalculatorIcon />,
+        },
+        path: "/dashboard/accounting",
         hasSubMenu: false,
       },
 

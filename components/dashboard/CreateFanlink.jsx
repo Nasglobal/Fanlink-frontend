@@ -125,12 +125,16 @@ function CreateFanlink() {
         }
 
           setLoader(true)
+          
+          const [year, month, day] = values.releaseDate.split("-");
+          const formattedDate = `${day}/${month}/${year}`;
+          
           const formData = new FormData();
           formData.append('artist', selectedArtist.replace(/^[,.\s]+|[,.\s]+$/g, ""));
           formData.append('track', values.track_title.replace(/^[,.\s]+|[,.\s]+$/g, ""));
           formData.append('description', values.description);
           formData.append('isrc', values.isrc);
-          formData.append('releaseDate', values.releaseDate);
+          formData.append('releaseDate', formattedDate);
           formData.append('source', values.source);
           formData.append('label', values.label);
           formData.append('image', logo);

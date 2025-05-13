@@ -61,7 +61,7 @@ function FanlinkPage() {
       {loader ? <Spinner/>: <>
 
 
-  {fanlinks?.source == "youtube" ? 
+{fanlinks?.source == "youtube" ? 
 <iframe
 className='bg-black'
   width="100%"
