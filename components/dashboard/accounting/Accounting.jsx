@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import { api,base } from '@/lib/api'
 import { FileUploader } from "react-drag-drop-files";
@@ -58,26 +58,48 @@ export default function Accounting() {
     }
 };
 
-const handleDragOver = (event)=>{
-    event.preventDefault()
- }
+useEffect(() => {
+  // Prevent browser from opening the file when dropped outside
+  const handleWindowDragOver = (e) => e.preventDefault();
+  const handleWindowDrop = (e) => e.preventDefault();
 
- const handleDrop = (event)=>{
-   event.preventDefault();
-   const droppedFile = event.dataTransfer.files;
-   if(droppedFile.length > 1){
+  window.addEventListener("dragover", handleWindowDragOver);
+  window.addEventListener("drop", handleWindowDrop);
+
+  return () => {
+    window.removeEventListener("dragover", handleWindowDragOver);
+    window.removeEventListener("drop", handleWindowDrop);
+  };
+}, []);
+
+const handleDragOver = (event) => {
+  event.preventDefault();
+};
+
+const handleDrop = (event) => {
+  event.preventDefault();
+  const files = event.dataTransfer.files;
+  if (!files || files.length === 0) return;
+
+  if (files.length > 1) {
     notify("Only a single file is permitted at once", "fail");
-    return
-   }
-   if (droppedFile[0].type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-    // File is XLSX
-    setFile(droppedFile[0]);
-    
+    return;
+  }
+
+  const file = files[0];
+  const allowedTypes = [
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+    "application/vnd.ms-excel", // .xls
+    "text/csv" // .csv
+  ];
+
+  if (allowedTypes.includes(file.type)) {
+    setFile(file);
   } else {
     notify("File format not supported", "fail");
-   return
   }
- }
+};
+
 
 
     
