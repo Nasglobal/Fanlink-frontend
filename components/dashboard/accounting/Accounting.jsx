@@ -11,6 +11,7 @@ export default function Accounting() {
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [viewLink, setViewLink] = useState(false);
 
   const handleUpload = async () => {
     setLoading(true);
@@ -41,6 +42,7 @@ export default function Accounting() {
 
         
         setFile(null);
+        setViewLink(true)
         notify("Upload successful", "success");
         console.log("response",response?.data)
 
@@ -95,6 +97,7 @@ const handleDrop = (event) => {
 
   if (allowedTypes.includes(file.type)) {
     setFile(file);
+    setViewLink(false)
   } else {
     notify("File format not supported", "fail");
   }
@@ -149,7 +152,20 @@ const handleDrop = (event) => {
           </div>
         </div>
       )}
+
+      {viewLink && !file && 
+       <a
+       href={`https://docs.google.com/spreadsheets/d/1J-nNwBetOsqu6EZk3-KsVBWJ_8sPgBc8AWnq9L-3yd0/edit?pli=1&gid=1480573682#gid=1480573682`}
+       target="_blank"
+       rel="noopener noreferrer"
+       className="text-green-500 text-sm font-semibold mt-3 flex justify-end underline hover:text-green-400"
+     >
+       Click to view result on google sheet
+     </a>
+      }
     </div>
+     
+   
     </div>
   );
 }
