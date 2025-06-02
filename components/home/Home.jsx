@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ListIcon } from "@/components/vectors";
 import Container from "../Container";
 import Navbar from "../shared/Navbar";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -66,6 +67,11 @@ export default function Home() {
       className="object-cover rounded-2xl border"
       />
       </section>
+      <div className="flex items-center justify-center gap-2 my-4  text-xs text-center text-white">
+      <Link href="/policy/privacy-policy" className='underline cursor-pointer'>Privacy policy</Link> &
+      <Link href="/policy/terms-and-conditions" className='underline cursor-pointer' >Terms of service</Link>
+    </div>
+
     <p className="text-xs text-center text-white">© 2024 Copyright. 51 Lex, All rights reserved.</p>
     </Container>
       </footer>
