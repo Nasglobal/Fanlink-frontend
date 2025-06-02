@@ -103,8 +103,8 @@ function TermsAndConditions() {
    <footer className="bg-black py-5 mt-10">
     <Container> 
     <div className="flex flex-col items-center justify-center gap-2 my-4  text-xs text-center text-white">
-      <Link href="/policy/privacy-policy" className='underline cursor-pointer'>Privacy policy</Link>
-      <Link href="/policy/terms-and-conditions" className='underline cursor-pointer' >Terms and Conditions</Link>
+      <Link href="/info/privacy-policy" className='underline cursor-pointer'>Privacy policy</Link>
+      <Link href="/info/terms-and-conditions" className='underline cursor-pointer' >Terms and Conditions</Link>
     </div>
     <p className="text-xs text-center text-white">© 2025 Copyright. 51 Lex, All rights reserved.</p>
     </Container>

@@ -180,9 +180,9 @@ allowfullscreen
       <footer className='mt-4 gap-2 text-sm flex justify-center flex-col items-center mx-auto text-white'>
         <p >By using this service you agree to our</p>
         <div className="flex items-center justify-center gap-2 my-4  text-xs text-center text-white">
-      <Link href="/policy/privacy-policy" className='underline cursor-pointer'>Privacy policy</Link>
+      <Link href="/info/privacy-policy" className='underline cursor-pointer'>Privacy policy</Link>
       and
-      <Link href="/policy/terms-and-conditions" className='underline cursor-pointer' >Terms of service</Link>
+      <Link href="/info/terms-and-conditions" className='underline cursor-pointer' >Terms of service</Link>
         </div>
         <p className='text-xs'>Report a problem</p>
       </footer>
