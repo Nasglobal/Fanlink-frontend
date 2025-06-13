@@ -15,7 +15,7 @@ import { copyToClipboard,notify } from '@/lib/utils'
 function FanlinkListing() {
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [page_size, setPage_size] = useState(100);
+    const [page_size, setPage_size] = useState(1000);
     const [loading,setLoading] = useState(false)
     const [results,setResults] = useState(null)
     const [error,setError] = useState(null)
