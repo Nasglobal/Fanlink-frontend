@@ -13,7 +13,55 @@ export default function Accounting() {
   const [loading, setLoading] = useState(false);
   const [viewLink, setViewLink] = useState(false);
 
-  const handleUpload = async () => {
+//   const handleUpload = async () => {
+//     setLoading(true);
+
+//     if (!file) {
+//         notify("No file selected", "fail");
+//         setLoading(false);
+//         return;
+//     }
+
+//     try {
+//         setUploadProgress(0);
+
+//         const formData = new FormData();
+//         formData.append("file_sheet", file);
+
+//         const response = await axios.post(base + `/upload-sheet/`, formData, {
+//             headers: { "Content-Type": "multipart/form-data" },
+//             onUploadProgress: (progressEvent) => {
+//                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+//                 setUploadProgress(percentCompleted);
+//             },
+//         });
+
+//         if (response.status !== 200) {
+//             throw new Error("Failed to upload. Please try again.");
+//         }
+
+        
+//         setFile(null);
+//         setViewLink(true)
+//         notify("Upload successful", "success");
+      
+
+//     } catch (error) {
+//         console.error("Upload error:", error);
+
+//         if (axios.isAxiosError(error)) {
+//             notify(error.response?.data?.message || "Upload failed. Please try again.", "error");
+//         } else {
+//             notify("An unexpected error occurred. Please try again.", "error");
+//         }
+
+//     } finally {
+//         setLoading(false);
+//     }
+// };
+
+
+const handleUpload = async () => {
     setLoading(true);
 
     if (!file) {
@@ -34,17 +82,30 @@ export default function Accounting() {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                 setUploadProgress(percentCompleted);
             },
+            responseType: 'blob', // 🔑 important: tells axios to expect a binary file
         });
 
         if (response.status !== 200) {
-            throw new Error("Failed to upload. Please try again.");
+            notify("Sorry an Error occured", "fail");
+            throw new Error("Failed to upload. Please try again.");    
         }
 
-        
+        // 🔽 Auto-download the returned ZIP
+        const blob = new Blob([response.data], { type: 'application/zip' });
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Entity_Reports.zip';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
         setFile(null);
-        setViewLink(true)
-        notify("Upload successful", "success");
-        console.log("response",response?.data)
+        setViewLink(true);
+        notify("Upload and download successful", "success");
 
     } catch (error) {
         console.error("Upload error:", error);
@@ -59,6 +120,7 @@ export default function Accounting() {
         setLoading(false);
     }
 };
+
 
 useEffect(() => {
   // Prevent browser from opening the file when dropped outside
