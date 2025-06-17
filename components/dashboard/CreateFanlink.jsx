@@ -351,15 +351,15 @@ const artists = [
   ]
 
   const source = [
-    "audiomack",
-    "youtube",
-    "sportify",
-    "boomplay",
-    "applemusic",
-    "itunes",
-    "deezer",
-    "tidal",
-    "amazon",
+    "Audiomack",
+    "YouTube",
+    "Sportify",
+    "Boomplay",
+    "Apple Music",
+    "Itunes",
+    "Deezer",
+    "Tidal",
+    "Amazon",
   ]
   
   const trackTitle = [
