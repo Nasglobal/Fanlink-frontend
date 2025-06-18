@@ -96,7 +96,7 @@ const handleUpload = async () => {
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Entity_Reports.zip';
+        a.download = 'Mike Ejeagha-Account_Reports.zip';
         document.body.appendChild(a);
         a.click();
         a.remove();

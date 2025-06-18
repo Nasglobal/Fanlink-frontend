@@ -16,8 +16,16 @@ function PrivacyPolicy() {
     </div>
    
     <div className='flex  flex-col gap-10 text-black'>
+      <p className='text-[16px] leading-5 font-semibold'>Last updated: [06/18/2025]</p>
       <p className='text-[16px] leading-5'>{"51Lex Fanlink is committed to protecting the privacy of users who use our web application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you sign up, log in, and use our services. By using 51Lex Fanlink, you agree to the collection and use of information in accordance with this policy."}</p>
 
+      <div className=''>
+        <p className='md:text-2xl text-lg text-gray-950 font-semibold mb-2'>Use of YouTube API Services</p>
+        <p className='text-[16px] leading-5'>51Lex Fanlink uses <span className='font-semibold'>YouTube API Services</span> to enable the generation and management of fanlinks associated with YouTube content.
+By using our app, you are also agreeing to be bound by the <a className='text-blue-400' href="https://www.youtube.com/t/terms" target="_blank">YouTube Terms of Service</a>{" "}and the <a className='text-blue-400' href="http://www.google.com/policies/privacy" target="_blank">Google Privacy Policy</a>{", "}
+  in addition to our own <Link href="/info/terms-and-conditions" className='underline cursor-pointer' >Terms and Conditions</Link>.</p>
+      </div>
+ 
       <div className=''>
         <p className='md:text-2xl text-lg text-primary font-semibold mb-2'>Information we collect</p>
         <span className='font-semibold text-gray-950'>-- Personal Information:</span>
