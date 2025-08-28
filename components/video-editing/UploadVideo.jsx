@@ -123,7 +123,7 @@ export default function UploadVideo({ setVideoUrl,setVideoId }) {
         onChange={(e) => setFile(e.target.files[0])}
       /> */}
       {file && fileName &&
-      <p className="text-center text-gray-600 font-semibold text-sm p-3 mb-3 border-2 rounded-md">{fileName}</p>
+      <p className="text-center text-gray-600 font-semibold text-sm p-3 mb-3 border-2 rounded-md">{fileName.length > 50 ? fileName.slice(0, 60) + "...": fileName}</p>
       }
       <>
       {!selecting && 
