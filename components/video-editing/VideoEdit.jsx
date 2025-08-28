@@ -262,7 +262,7 @@ const handleDeleteVideo = async (videoId) => {
                 rel="noopener noreferrer"
                 className="text-blue-500 text-sm font-semibold mt-1 hover:underline"
               >
-                {video.name}
+                {video?.name?.length > 40 ? video?.name.slice(0, 40) + "..." : video?.name}
               </a>
 
               {/* <span className="ml-2 text-gray-500 text-sm">
